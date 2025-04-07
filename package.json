@@ -2,7 +2,7 @@
   "name": "espulp",
   "displayName": "ESP32 ULP Assembly Syntax Highlighting",
   "description": "ESP32 ULP Assembly Syntax Highlighting",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "cooble",
   "icon": "images/icon.png",
   "author": {
