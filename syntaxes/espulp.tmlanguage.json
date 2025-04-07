@@ -1,0 +1,609 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "scopeName": "source.espulp",
+  "name": "ESP ULP Assembly",
+  "fileTypes": [
+    "s",
+    "S",
+    "asm",
+    ".ulp",
+    "*.ulp",
+    ".sulp",
+    ".ulp.s",
+    ".s"
+  ],
+  "patterns": [
+    {
+      "match": "\\b(?i)(?:NOP|STAGE_RST|HALT|WAKE)\\b",
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Instruction Immediate) //forbids registers",
+      "match": "\\b(?i)(sleep|stage\\_inc|stage\\_dec|wait)\\s+(r[0-3]|)",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "name": "invalid.illegal.ulp"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#numerics"
+        },
+        {
+          "include": "#variables"
+        }
+      ],
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Arithmetic and Logical)",
+      "match": "\\b(?i)(ADD|SUB|AND|OR|LSH|RSH)\\s+(r[0-3]),\\s*(r[0-3]),\\s*(r[0-3]|#?-?\\d+|(\\b|#)-?[a-zA-Z_][0-9a-zA-Z_]*\\b|#?-?(0x|&)[0-9a-fA-F_]+\\b|#?[0-9]+\\b|#?0b[01]+\\b)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "name": "storage.register.destination.ulp"
+        },
+        "3": {
+          "name": "storage.register.source1.ulp"
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "storage.register.source2.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(convenient stuff register + 2 immediates)",
+      "match": "\\b(?i)(ADC)\\s+(r[0-3]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "name": "storage.register.ulp"
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(convenient stuff 3 immediates)",
+      "match": "\\b(?i)(REG_RD)\\s+([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(convenient stuff 4 immediates)",
+      "match": "\\b(?i)(REG_WR|I2C_RD)\\s+([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "5": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(convenient stuff 5 immediates)",
+      "match": "\\b(?i)(I2C_WR)\\s+([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*,\\s*([^\\s,]+)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "5": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "6": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Jump Instructions)",
+      "match": "\\b(?i)(jump)\\s+([^\\s,]+)\\s*(?:,\\s*(\\w+))?\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "storage.register.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "\\b(?i)(eq|lt|le|gt|ge)\\b",
+              "name": "keyword.control.condition.ulp"
+            },
+            {
+              "match": "\\b\\w+\\b",
+              "name": "invalid.illegal.ulp"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Jumps/Jumpr Instructions)",
+      "match": "\\b(?i)(jump[rs])\\s+([^\\s,]+)\\s*,\\s*([^\\s,]+)\\s*(?:,\\s*(\\w+))?\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "\\b(?i)(eq|lt|le|gt|ge)\\b",
+              "name": "keyword.control.condition.ulp"
+            },
+            {
+              "match": "\\b\\w+\\b",
+              "name": "invalid.illegal.ulp"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Move Instructions)",
+      "match": "\\b(?i)(MOVE)\\s+(r[0-3])\\s*,\\s*(r[0-3]|#?-?\\d+|(\\b|#)-?[a-zA-Z_][0-9a-zA-Z_]*\\b|#?-?(0x|&)[0-9a-fA-F_]+\\b|#?[0-9]+\\b|#?0b[01]+\\b)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "name": "storage.register.destination.ulp"
+        },
+        "3": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "storage.register.source.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "comment": "(Store and Load)",
+      "match": "\\b(?i)(ST|LD)\\s+(r[0-3]),\\s*(r[0-3]),\\s*(r[0-3]|#?-?\\d+|(\\b|#)-?[a-zA-Z_][0-9a-zA-Z_]*\\b|#?-?(0x|&)[0-9a-fA-F_]+\\b|#?[0-9]+\\b|#?0b[01]+\\b)\\b",
+      "captures": {
+        "1": {
+          "name": "support.function.instruction.ulp"
+        },
+        "2": {
+          "name": "storage.register.source1.ulp"
+        },
+        "3": {
+          "name": "storage.register.destination.ulp"
+        },
+        "4": {
+          "patterns": [
+            {
+              "match": "r[0-3]",
+              "name": "invalid.illegal.ulp"
+            },
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      },
+      "name": "support.function.instruction.ulp"
+    },
+    {
+      "match": "^\\s*[#\\.](define|include|(end|el|else)?if|if(def|ndef)?|else)(\\s+(defined\\(\\w+\\)|\\w+)(\\s+(&&|\\|\\|)\\s+defined\\(\\w+\\)|\\w]+)*)?\\b",
+      "name": "meta.preprocessor"
+    },
+    {
+      "match" : "r[0-3]",
+      "name" : "storage.register.ulp"
+    },
+    {
+      "comment": "(Available macros for ULP)",
+      "match": "(READ|WRITE)_RTC_(FIELD|REG)",
+      "name": "meta.preprocessor"
+    },
+    {
+      "match": "^\\s*\\.?\\w+:\\s*(?=$|;|//.*$)",
+      "name": "routine.ulp"
+    },
+    {
+      "match": "\\b(?i)area|space|fill\\b",
+      "name": "support.function.mnemonic.memory.ulp"
+    },
+    {
+      "name": "keyword.control.directive.ulp",
+      "match": "\\.(?i)(globl|global|extern|weak|macro|endm|purgem|section|text|data|bss|arm|align|balign|irp|rept|endr|(un)?req|error|short|(end)?func|hidden|type|cpu|fpu|arch|code|syntax|altmacro|object_arch|word|int|string|thumb(_set)?|set|pragma|undef|line|get)(?-i)\\b"
+    },
+    {
+      "match": "\\b\\=",
+      "name": "keyword.control.evaluation"
+    },
+    {
+      "name": "storage.memaddress.ulp",
+      "match": "\\[[ \\t]*(\\w+),[ \\t]*([a-zA-Z0-9#-_]+)[ \\t]*\\]!?",
+      "captures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#registers"
+            }
+          ]
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#numerics"
+            },
+            {
+              "include": "#registers"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#numerics"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#registers"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "match": "([;@]|//|#).*$",
+          "name": "comment.ulp"
+        },
+        {
+          "begin": "\\/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "comment.begin.ulp"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "comment.end.ulp"
+            }
+          },
+          "end": "\\*\\/",
+          "name": "comment.ulp"
+        }
+      ]
+    },
+    "conditions": {
+      "patterns": [
+        {
+          "match": "(?i)eq|lt|le|gt|ge"
+        }
+      ]
+    },
+    "numerics": {
+      "patterns": [
+        {
+          "match": "#?-?(0x|&)[0-9a-fA-F_]+\\b",
+          "name": "constant.numeric.hex.ulp"
+        },
+        {
+          "match": "#?[0-9]+\\b",
+          "name": "constant.numeric.dec.ulp"
+        },
+        {
+          "match": "#?0b[01]+\\b",
+          "name": "constant.numeric.bin.ulp"
+        }
+      ]
+    },
+    "registers": {
+      "patterns": [
+        {
+          "match": "\b(r[0-3])\b",
+          "name": "storage.register.ulp"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.ulp",
+          "begin": "\"",
+          "end": "\""
+        },
+        {
+          "match": "\\'\\S\\'",
+          "name": "string.char.ulp"
+        },
+        {
+          "name": "invalid.illegal.string.ulp",
+          "match": "\"[^\"]+$"
+        },
+        {
+          "name": "invalid.illegal.char.ulp",
+          "match": "\\'\\S{2,}\\'"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "match": "(\\b|#)-?[a-zA-Z_][0-9a-zA-Z_]*\\b",
+          "name": "variable.named.ulp"
+        }
+      ]
+    }
+  }
+}

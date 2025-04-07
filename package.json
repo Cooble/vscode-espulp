@@ -1,0 +1,42 @@
+{
+  "name": "espulp",
+  "displayName": "ESP32 ULP Assembly Syntax Highlighting",
+  "description": "ESP32 ULP Assembly Syntax Highlighting",
+  "version": "0.0.1",
+  "publisher": "cooble",
+  "icon": "images/icon.png",
+  "author": {
+    "name": "Matej Cerny"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "galleryBanner": {
+    "color": "#0084A9",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cooble/vscode-espulp.git"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "espulp",
+        "aliases": ["ESP ULP Assembly", "espulp"],
+        "extensions": [".s", ".S", ".asm", ".ulp", ".sulp", ".ulp.s"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "espulp",
+        "scopeName": "source.espulp",
+        "path": "./syntaxes/espulp.tmlanguage.json"
+      }
+    ]
+  }
+}

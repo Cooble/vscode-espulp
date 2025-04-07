@@ -1,0 +1,77 @@
+### ULP Instruction set
+
+Registers: 
+r0, r1, r2, r3
+Conditions:
+eq, lt, le, gt, ge
+
+Instructions:
+NOP
+ADD Rdst, Rsrc1, Rsrc2
+ADD Rdst, Rsrc1, imm
+SUB Rdst, Rsrc1, Rsrc2
+SUB Rdst, Rsrc1, imm
+AND Rdst, Rsrc1, Rsrc2
+AND Rdst, Rsrc1, imm
+OR Rdst, Rsrc1, Rsrc2
+OR Rdst, Rsrc1, imm
+LSH Rdst, Rsrc1, Rsrc2
+LSH Rdst, Rsrc1, imm
+RSH Rdst, Rsrc1, Rsrc2
+RSH Rdst, Rsrc1, imm
+MOVE Rdst, Rsrc
+MOVE Rdst, imm
+ST Rsrc, Rdst, offset
+LD Rdst, Rsrc, offset
+JUMP Rdst
+JUMP ImmAddr
+JUMP Rdst, Condition
+JUMP ImmAddr, Condition
+JUMPR Step, Threshold, Condition
+JUMPS Step, Threshold, Condition
+STAGE_RST
+STAGE_INC Value
+STAGE_DEC Value
+HALT
+WAKE
+SLEEP Value
+WAIT Cycles
+ADC Rdst, Sar_sel, Mux
+I2C_RD Sub_addr, High, Low, Slave_sel
+I2C_WR Sub_addr, Value, High, Low, Slave_sel
+REG_RD Addr, High, Low
+REG_WR Addr, High, Low, Data
+
+
+Examples:
+ADD r0, r1, 10
+SUB r0, r1, r2
+AND r0, r1, 0xFF
+OR invalidregister, r1, 0x0F
+OR r0, r1, 0x0F
+LSH r0, r1, r2
+RSH r0, r1, 0x0
+MOVE r0, r1
+MOVE r0, 0x0
+ST r1, r0, 0
+LD r0, r1, offset
+JUMP r0
+JUMP 0x100
+JUMP 5, eq
+JUMP r1, eq
+JUMPR Acerola, Orion, LT
+JUMPS 0x3+Expression, 15, gt
+JUMPS r0, 15, gt // cannot use registers for JUMPS
+STAGE_RST
+STAGE_INC increment
+STAGE_DEC 1
+HALT
+WAKE
+SLEEP 100
+WAIT 50
+ADC r0, 16+5, death+6
+I2C_RD 0x10, 1, 0, 2
+I2C_WR 0x10, 0xFF, 1, 0, 2
+REG_RD 0x20, 1, 0
+REG_WR 0x20+5, 1, 0x10, 0xff
+REG_WR r1, r0, r4, 0xFF // cannot use registers for REG_WR, r4 is not register but normal variableName
